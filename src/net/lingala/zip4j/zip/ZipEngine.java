@@ -254,6 +254,47 @@ public class ZipEngine {
 		}
 	}
 	
+	public static ArrayList<File> getAddFolderToZip(File file, ZipParameters parameters) throws ZipException {
+		if (file == null || parameters == null) {
+			throw new ZipException("one of the input parameters is null, cannot add folder to zip");
+		}
+		
+		if (!Zip4jUtil.checkFileExists(file.getAbsolutePath())) {
+			throw new ZipException("input folder does not exist");
+		}
+		
+		if (!file.isDirectory()) {
+			throw new ZipException("input file is not a folder, user addFileToZip method to add files");
+		}
+		
+		if (!Zip4jUtil.checkFileReadAccess(file.getAbsolutePath())) {
+			throw new ZipException("cannot read folder: " + file.getAbsolutePath());
+		}
+		
+		String rootFolderPath = null;
+		if (parameters.isIncludeRootFolder()) {
+			if (file.getAbsolutePath() != null) {
+				rootFolderPath = file.getAbsoluteFile().getParentFile() != null ? file.getAbsoluteFile().getParentFile().getAbsolutePath() : "";
+			} else {
+				rootFolderPath = file.getParentFile() != null ? file.getParentFile().getAbsolutePath() : "";
+			}
+		} else {
+		    rootFolderPath = file.getAbsolutePath();
+		}
+		
+		parameters.setDefaultFolderPath(rootFolderPath);
+		
+		ArrayList fileList = Zip4jUtil.getFilesInDirectoryRec(file, parameters.isReadHiddenFiles());
+		
+		if (parameters.isIncludeRootFolder()) {
+			if (fileList == null) {
+				fileList = new ArrayList();
+			}
+			fileList.add(file);
+		}
+		return fileList;
+	}
+	
 	public void addFolderToZip(File file, ZipParameters parameters, 
 			ProgressMonitor progressMonitor, boolean runInThread) throws ZipException {
 		if (file == null || parameters == null) {

@@ -218,9 +218,9 @@ public class Unzip {
 			FileHeader fileHeader = (FileHeader)fileHeaders.get(i);
 			if (fileHeader.getZip64ExtendedInfo() != null && 
 					fileHeader.getZip64ExtendedInfo().getUnCompressedSize() > 0) {
-				totalWork += fileHeader.getZip64ExtendedInfo().getCompressedSize();
+				totalWork += fileHeader.getZip64ExtendedInfo().getUnCompressedSize();
 			} else {
-				totalWork += fileHeader.getCompressedSize();
+				totalWork += fileHeader.getUncompressedSize();
 			}
 			
 		}
