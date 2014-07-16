@@ -1,5 +1,9 @@
 zip4j 1.3.2.modified
 
-bug fix:progress error when unzipping.
+============================
 
-new function:zip all files and directories once and for all
+解决解压时进度错误的bug
+
+增加可一次性加入文件和文件夹的功能（这样压缩多文件可观察正确的进度）
+
+使用GBK作为缺省值，实践证明兼容UTF-8
