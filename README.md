@@ -11,7 +11,7 @@ zip4j 1.3.2.modified
 
 若想更精确检测编码，可使用：juniversalchardet，地址http://code.google.com/p/juniversalchardet/
 
-检测片段放到HeaderReader.java的readCentralDirectory()方法的下面代码块内
+检测片段放到HeaderReader.java的readCentralDirectory()方法的下面代码块的else块内
 
 ``` java
 if (Zip4jUtil.isStringNotNullAndNotEmpty(zipModel.getFileNameCharset())) {
