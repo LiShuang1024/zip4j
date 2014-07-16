@@ -464,15 +464,17 @@ public class Zip4jUtil {
 	 * @return String
 	 */
 	public static String decodeFileName(byte[] data, boolean isUTF8) {
+		String nameString = "";
 		if (isUTF8) {
 			try {
-				return new String(data, InternalZipConstants.CHARSET_UTF8);
+				nameString = new String(data, InternalZipConstants.CHARSET_UTF8);
 			} catch (UnsupportedEncodingException e) {
-				return new String(data);
+				nameString = new String(data);
 			}
 		} else {
-			return getCp850EncodedString(data);
+			nameString = getGBKEncodedString(data);
 		}
+		return nameString;
 	}
 	
 	/**
@@ -488,6 +490,21 @@ public class Zip4jUtil {
 		} catch (UnsupportedEncodingException e) {
 			return new String(data);
 		}
+	}
+	
+	/**
+	 * 使用GBK作为缺省值
+	 * @param data
+	 * @return String
+	 */
+	public static String getGBKEncodedString(byte[] data) {
+		String retString="";
+		try {
+			retString = new String(data, "GBK");
+		} catch (UnsupportedEncodingException e) {
+			retString = new String(data);
+		}
+		return retString;
 	}
 	
 	/**
