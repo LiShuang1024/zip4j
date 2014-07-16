@@ -9,4 +9,14 @@ zip4j 1.3.2.modified
 
 自带的编码检测只能知道是不是UTF8。
 
-若想更精确检测编码，可使用http://code.google.com/p/juniversalchardet/
+若想更精确检测编码，可使用：juniversalchardet，地址http://code.google.com/p/juniversalchardet/
+
+检测片段放到HeaderReader.java的readCentralDirectory()方法的下面代码块内
+
+``` java
+if (Zip4jUtil.isStringNotNullAndNotEmpty(zipModel.getFileNameCharset())) {
+	fileName = new String(fileNameBuf, zipModel.getFileNameCharset());
+} else {
+	fileName = Zip4jUtil.decodeFileName(fileNameBuf, fileHeader.isFileNameUTF8Encoded());
+}
+```
